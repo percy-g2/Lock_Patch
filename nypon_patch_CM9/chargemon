@@ -1,0 +1,65 @@
+#!/system/xbin/sh
+############# ############# #############
+# Chargemon script for Xperia P
+# Included:
+#     - CWM6 (ics) recovery
+#     - Boot to FireDroid with custom ramdisk
+# atis112@xda
+############# ############# #############
+
+	############# ############# #############
+	# Boot to cwm6
+	############# ############# #############
+	cat /dev/input/event1 > /dev/keycheck&
+	sleep 3
+	kill -9 $!
+	if [ -s /dev/keycheck -o -e /cache/recovery/boot ]
+	then
+
+	rm /cache/recovery/boot
+
+	# remount rootfs rw
+	mount -o remount,rw rootfs /
+
+	# Umount eMMCs
+	umount -l /dev/block/mmcblock0p10
+	umount -l /dev/block/mmcblock0p11
+	umount -l /dev/block/mmcblock0p12
+
+	# Mount recovery
+	cd /
+	rm -r /sbin /sdcard
+	rm -f etc init* uevent* default*
+	if [ -f /system/bin/recovery.tar ]
+	then
+		tar -xf /system/bin/recovery.tar
+	fi
+
+	# Umount /system
+	umount -l /dev/block/mmcblk0p10
+
+	# chroot
+	chroot / /init
+
+	fi
+
+	############# ############# #############
+	# Boot to FireDroid with custom ramdisk
+	############# ############# #############
+	# remount rootfs rw
+	mount -o remount,rw rootfs /
+
+	# Umount eMMCs
+	umount -l /dev/block/mmcblock0p10
+	umount -l /dev/block/mmcblock0p11
+	umount -l /dev/block/mmcblock0p12
+	umount -l /data
+
+	# Mount ramdisk
+	cd /
+	rm -r /sbin /sdcard
+	rm -f etc init* uevent* default*
+	tar -xf /system/bin/ramdisk.tar
+
+	# chroot
+	chroot / /init

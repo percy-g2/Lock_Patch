@@ -1,0 +1,4 @@
+#!/system/bin/sh
+
+rm -r /data/system/wpa_supplicant
+killall wpa_supplicant
