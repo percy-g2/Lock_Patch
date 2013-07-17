@@ -1,5 +1,18 @@
-Lock_Patch
-==========
+Lock_Patch Porting for cm10 WIP
+===============================
+
+
+
+
+
+
+
+
+
+
+
+
+OLD CM9 patch intructions (no need)
 
 3. Step - Correct the META-INF folder
 Open the Semc Debrand Engine Rom's flashable zip
